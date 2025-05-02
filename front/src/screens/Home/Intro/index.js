@@ -14,7 +14,7 @@ const settings = {
   adaptiveHeight: true,
 }
 
-const Intro = ({ info }) => {
+const Intro = ({ data }) => {
   const { push } = useRouter()
 
   const handleClick = href => {
@@ -25,31 +25,33 @@ const Intro = ({ info }) => {
     <div className={cn('section', styles.section)}>
       <div className={cn('container', styles.container)}>
         <div className={styles.head}>
-          <div className={styles.stage}>{info?.title}</div>
-          <h3 className={cn('h3', styles.title)}>{info?.metadata?.subtitle}</h3>
+          <div className={styles.stage}>{data?.title}</div>
+          <h3 className={cn('h3', styles.title)}>{data?.metadata?.subtitle}</h3>
         </div>
         <div className={styles.wrapper}>
           <Slider className="creative-slider" {...settings} aria-hidden="true">
             <div className={styles.slide}>
               <div className={styles.row}>
-                <Image
-                  size={{ width: '100%', height: '80vh' }}
-                  className={styles.player}
-                  srcSet={info?.metadata?.image?.imgix_url}
-                  srcSetDark={info?.metadata?.image?.imgix_url}
-                  src={info?.metadata?.image?.imgix_url}
-                  srcDark={info?.metadata?.image?.imgix_url}
-                  alt="Introduction"
-                  objectFit="contain"
-                />
+                {data?.metadata?.image?.imgix_url && (
+                  <Image
+                    size={{ width: '100%', height: '80vh' }}
+                    className={styles.player}
+                    srcSet={data?.metadata?.image?.imgix_url}
+                    srcSetDark={data?.metadata?.image?.imgix_url}
+                    src={data?.metadata?.image?.imgix_url}
+                    srcDark={data?.metadata?.image?.imgix_url}
+                    alt="Introduction"
+                    objectFit="contain"
+                  />
+                )}
                 <div className={styles.details}>
                   <h3 className={cn('h3', styles.subtitle)}>
-                    {info?.metadata?.title}
+                    {data?.metadata?.title}
                   </h3>
                   <div className={styles.wrap}>
                     <div className={styles.info}>Current Bid</div>
                     <div className={styles.price}>
-                      {info?.metadata?.description}
+                      {data?.metadata?.description}
                     </div>
                   </div>
                   <div className={styles.btns}>

@@ -6,24 +6,19 @@ import Image from 'next/image'
 import User from './User'
 import Theme from '../Theme'
 import Modal from '../Modal'
-import OAuth from '../OAuth'
 import { useStateContext } from '../../utils/context/StateContext'
-import { getToken } from '../../utils/token'
+import { getToken, removeToken } from '../../utils/token'
+import SignInForm from '../auth/SignInForm'
+import SignUpForm from '../auth/SignUpForm'
 
 import styles from './Header.module.sass'
 
 const Headers = ({ navigation }) => {
   const [visibleNav, setVisibleNav] = useState(false)
   const [visibleAuthModal, setVisibleAuthModal] = useState(false)
+  const [isLoginForm, setIsLoginForm] = useState(true)
 
   const { user, setUser } = useStateContext()
-
-  const handleOAuth = useCallback(
-    userData => {
-      !user?.id && userData?.id && setUser(userData)
-    },
-    [user, setUser]
-  )
 
   useEffect(() => {
     let isMounted = true
@@ -36,6 +31,14 @@ const Headers = ({ navigation }) => {
       isMounted = false
     }
   }, [user, setUser])
+
+  const handleAuthSuccess = useCallback(() => {
+    setVisibleAuthModal(false)
+  }, [])
+
+  const toggleAuthForm = useCallback(() => {
+    setIsLoginForm(prev => !prev)
+  }, [])
 
   return (
     <>
@@ -78,18 +81,14 @@ const Headers = ({ navigation }) => {
             <Icon name="search" size="20" />
             Search
           </AppLink>
-          {user?.id ? (
-            <User className={styles.user} user={user} />
-          ) : (
-            <button
-              aria-label="login"
-              aria-hidden="true"
-              className={cn('button-small', styles.button, styles.login)}
-              onClick={() => setVisibleAuthModal(true)}
-            >
-              Login
-            </button>
-          )}
+          <button
+            aria-label="login"
+            aria-hidden="true"
+            className={cn('button-small', styles.button, styles.login)}
+            onClick={() => setVisibleAuthModal(true)}
+          >
+            Войти
+          </button>
           <button
             aria-label="user-information"
             aria-hidden="true"
@@ -98,15 +97,35 @@ const Headers = ({ navigation }) => {
           />
         </div>
       </header>
+
       <Modal
         visible={visibleAuthModal}
         onClose={() => setVisibleAuthModal(false)}
+        outerClassName={styles.modal}
       >
-        <OAuth
-          className={styles.steps}
-          handleOAuth={handleOAuth}
-          handleClose={() => setVisibleAuthModal(false)}
-        />
+        <div className={styles.steps}>
+          <div className={styles.tabs}>
+            <button
+              className={cn(styles.tab, { [styles.active]: isLoginForm })}
+              onClick={() => setIsLoginForm(true)}
+            >
+              Вход
+            </button>
+            <button
+              className={cn(styles.tab, { [styles.active]: !isLoginForm })}
+              onClick={() => setIsLoginForm(false)}
+            >
+              Регистрация
+            </button>
+          </div>
+          <div className={styles.content}>
+            {isLoginForm ? (
+              <SignInForm onSuccess={handleAuthSuccess} />
+            ) : (
+              <SignUpForm onSuccess={handleAuthSuccess} />
+            )}
+          </div>
+        </div>
       </Modal>
     </>
   )

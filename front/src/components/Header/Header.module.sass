@@ -46,6 +46,13 @@
         &:hover
             background: $blue
             color: $white
+    .logout
+        border: 1px solid $blue-dark
+        color: $blue-dark
+        transparent: all 0.5s ease-out
+        &:hover
+            background: $blue-dark
+            color: $white
 
 .logo
     position: relative
@@ -205,3 +212,47 @@
 
 .version
     margin-right: 8px
+
+.modal
+    :global(.modal-overlay)
+        background: rgba(0, 0, 0, 0.5)
+
+.steps
+    position: relative
+    max-width: 400px
+    margin: 0 auto
+    padding: 30px
+    background: $white
+    border-radius: 8px
+    +dark
+        background: $neutrals1
+
+.tabs
+    display: flex
+    margin-bottom: 32px
+    border-bottom: 1px solid $neutrals6
+    +dark
+        border-color: $neutrals3
+
+.tab
+    flex: 1
+    padding: 0 0 20px
+    +dm-sans
+    font-size: 16px
+    line-height: 1.5
+    font-weight: 500
+    text-align: center
+    color: $neutrals4
+    transition: all .2s
+    +dark
+        color: $neutrals6
+    &.active
+        color: $blue
+        +dark
+            color: $blue
+        &:after
+            transform: translateX(-50%) scaleX(1)
+
+.content
+    padding: 0 5px
+    

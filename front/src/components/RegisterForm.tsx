@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import authService, { RegisterData } from '../services/authService';
+import { authService, SignUpData } from '../services/authService';
 
 const RegisterForm: React.FC = () => {
     const router = useRouter();
-    const [formData, setFormData] = useState<RegisterData>({
+    const [formData, setFormData] = useState<SignUpData>({
         username: '',
         password: '',
-        email: ''
+        email: '',
+        role: 'USER'
     });
     const [error, setError] = useState('');
 
@@ -21,7 +22,7 @@ const RegisterForm: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            await authService.register(formData);
+            await authService.signUp(formData);
             router.push('/login');
         } catch (err) {
             setError('Registration failed. Please try again.');
