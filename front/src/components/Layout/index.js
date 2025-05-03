@@ -8,7 +8,7 @@ import { useStateContext } from '../../utils/context/StateContext'
 import styles from './Layout.module.sass'
 import { Meta, PageMeta } from '../Meta'
 
-const Layout = ({ children, title, navigationPaths }) => {
+const Layout = ({ children, title, navigationPaths, showLogout, onLogout }) => {
   const { navigation, setNavigation } = useStateContext()
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const Layout = ({ children, title, navigationPaths }) => {
         title={'remontPro'}
       />
       <div className={styles.page}>
-        <Header navigation={navigationPaths || navigation} />
+        <Header navigation={navigationPaths || navigation} showLogout={showLogout} onLogout={onLogout} />
         <main className={styles.inner}>{children}</main>
         <Footer navigation={navigationPaths || navigation} />
       </div>

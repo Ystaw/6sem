@@ -31,7 +31,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ className, onSuccess }) => {
       const response = await authService.signIn(formData);
       if (response.token) {
         onSuccess?.();
-        router.push('/');
+        router.push('/home-logged-in');
       }
     } catch (err: any) {
       setError(err.response?.data || 'Ошибка при авторизации');
