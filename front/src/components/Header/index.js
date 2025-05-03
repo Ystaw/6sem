@@ -13,7 +13,7 @@ import SignUpForm from '../auth/SignUpForm'
 
 import styles from './Header.module.sass'
 
-const Headers = ({ navigation }) => {
+const Headers = ({ navigation, showLogout, onLogout }) => {
   const [visibleNav, setVisibleNav] = useState(false)
   const [visibleAuthModal, setVisibleAuthModal] = useState(false)
   const [isLoginForm, setIsLoginForm] = useState(true)
@@ -81,14 +81,25 @@ const Headers = ({ navigation }) => {
             <Icon name="search" size="20" />
             Search
           </AppLink>
-          <button
-            aria-label="login"
-            aria-hidden="true"
-            className={cn('button-small', styles.button, styles.login)}
-            onClick={() => setVisibleAuthModal(true)}
-          >
-            Войти
-          </button>
+          {showLogout ? (
+            <button
+              aria-label="logout"
+              aria-hidden="true"
+              className={cn('button-small', styles.button, styles.logout)}
+              onClick={onLogout}
+            >
+              Выйти
+            </button>
+          ) : (
+            <button
+              aria-label="login"
+              aria-hidden="true"
+              className={cn('button-small', styles.button, styles.login)}
+              onClick={() => setVisibleAuthModal(true)}
+            >
+              Войти
+            </button>
+          )}
           <button
             aria-label="user-information"
             aria-hidden="true"
